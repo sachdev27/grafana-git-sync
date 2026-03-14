@@ -1,5 +1,5 @@
 {
-  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
   "kind": "Dashboard",
   "metadata": {
     "name": "tarko-hdpe-v2"
@@ -36,9 +36,10 @@
         "url": "/d/tarko-transport-v1"
       }
     ],
+    "liveNow": false,
     "panels": [
       {
-        "collapsed": true,
+        "collapsed": false,
         "gridPos": {
           "h": 1,
           "w": 24,
@@ -46,366 +47,347 @@
           "y": 0
         },
         "id": 1,
-        "panels": [
-          {
-            "datasource": "${datasource}",
-            "fieldConfig": {
-              "defaults": {
-                "color": {
-                  "mode": "thresholds"
-                },
-                "decimals": 0,
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "red",
-                      "value": 0
-                    },
-                    {
-                      "color": "yellow",
-                      "value": 20000
-                    },
-                    {
-                      "color": "green",
-                      "value": 50000
-                    }
-                  ]
-                },
-                "unit": "lengthm"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 4,
-              "w": 5,
-              "x": 0,
-              "y": 1
-            },
-            "id": 2,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "percentChangeColorMode": "standard",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "showPercentChange": false,
-              "textMode": "auto",
-              "wideLayout": true
-            },
-            "pluginVersion": "12.3.4",
-            "targets": [
-              {
-                "datasource": "${datasource}",
-                "format": "table",
-                "rawSql": "SELECT ROUND(\n    COALESCE((SELECT SUM(s.quantity*s.length_per_unit)\n      FROM inventory_stock s\n      JOIN product_variants pv ON s.product_variant_id=pv.id\n      JOIN product_types pt ON pv.product_type_id=pt.id\n      WHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n        AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'),0)\n    +COALESCE((SELECT SUM(h.length_meters)\n      FROM hdpe_cut_pieces h\n      WHERE h.status='IN_STOCK' AND h.deleted_at IS NULL),0)\n,0) AS \"value\" ",
-                "refId": "A"
-              }
-            ],
-            "title": "Total HDPE Meters In Stock",
-            "type": "stat"
-          },
-          {
-            "datasource": "${datasource}",
-            "fieldConfig": {
-              "defaults": {
-                "color": {
-                  "mode": "thresholds"
-                },
-                "decimals": 0,
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "blue",
-                      "value": 0
-                    }
-                  ]
-                },
-                "unit": "lengthm"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 4,
-              "w": 4,
-              "x": 5,
-              "y": 1
-            },
-            "id": 3,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "percentChangeColorMode": "standard",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "showPercentChange": false,
-              "textMode": "auto",
-              "wideLayout": true
-            },
-            "pluginVersion": "12.3.4",
-            "targets": [
-              {
-                "datasource": "${datasource}",
-                "format": "table",
-                "rawSql": "SELECT ROUND(COALESCE(SUM(s.quantity*s.length_per_unit),0),0) AS \"value\"\nFROM inventory_stock s\nJOIN product_variants pv ON s.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n  AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'",
-                "refId": "A"
-              }
-            ],
-            "title": "Full Roll Meters",
-            "type": "stat"
-          },
-          {
-            "datasource": "${datasource}",
-            "fieldConfig": {
-              "defaults": {
-                "color": {
-                  "mode": "thresholds"
-                },
-                "decimals": 0,
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "blue",
-                      "value": 0
-                    }
-                  ]
-                },
-                "unit": "lengthm"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 4,
-              "w": 4,
-              "x": 9,
-              "y": 1
-            },
-            "id": 4,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "percentChangeColorMode": "standard",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "showPercentChange": false,
-              "textMode": "auto",
-              "wideLayout": true
-            },
-            "pluginVersion": "12.3.4",
-            "targets": [
-              {
-                "datasource": "${datasource}",
-                "format": "table",
-                "rawSql": "SELECT ROUND(COALESCE(SUM(length_meters),0),0) AS \"value\"\nFROM hdpe_cut_pieces WHERE status='IN_STOCK' AND deleted_at IS NULL",
-                "refId": "A"
-              }
-            ],
-            "title": "Cut Piece Meters",
-            "type": "stat"
-          },
-          {
-            "datasource": "${datasource}",
-            "fieldConfig": {
-              "defaults": {
-                "color": {
-                  "mode": "thresholds"
-                },
-                "decimals": 0,
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "blue",
-                      "value": 0
-                    }
-                  ]
-                },
-                "unit": "short"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 4,
-              "w": 3,
-              "x": 13,
-              "y": 1
-            },
-            "id": 5,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "percentChangeColorMode": "standard",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "showPercentChange": false,
-              "textMode": "auto",
-              "wideLayout": true
-            },
-            "pluginVersion": "12.3.4",
-            "targets": [
-              {
-                "datasource": "${datasource}",
-                "format": "table",
-                "rawSql": "SELECT COUNT(DISTINCT pv.parameters)::BIGINT AS \"value\"\nFROM inventory_stock s\nJOIN product_variants pv ON s.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE s.status='IN_STOCK' AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'",
-                "refId": "A"
-              }
-            ],
-            "title": "Unique Specs In Stock",
-            "type": "stat"
-          },
-          {
-            "datasource": "${datasource}",
-            "fieldConfig": {
-              "defaults": {
-                "color": {
-                  "mode": "thresholds"
-                },
-                "decimals": 0,
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "blue",
-                      "value": 0
-                    }
-                  ]
-                },
-                "unit": "short"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 4,
-              "w": 3,
-              "x": 16,
-              "y": 1
-            },
-            "id": 6,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "percentChangeColorMode": "standard",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "showPercentChange": false,
-              "textMode": "auto",
-              "wideLayout": true
-            },
-            "pluginVersion": "12.3.4",
-            "targets": [
-              {
-                "datasource": "${datasource}",
-                "format": "table",
-                "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\" FROM batches b\nJOIN product_variants pv ON b.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE b.status='ACTIVE' AND b.deleted_at IS NULL AND pt.name='HDPE Pipe'",
-                "refId": "A"
-              }
-            ],
-            "title": "Active Batches",
-            "type": "stat"
-          },
-          {
-            "datasource": "${datasource}",
-            "fieldConfig": {
-              "defaults": {
-                "color": {
-                  "mode": "thresholds"
-                },
-                "decimals": 0,
-                "mappings": [],
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "blue",
-                      "value": 0
-                    }
-                  ]
-                },
-                "unit": "lengthm"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 4,
-              "w": 5,
-              "x": 19,
-              "y": 1
-            },
-            "id": 7,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "percentChangeColorMode": "standard",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "showPercentChange": false,
-              "textMode": "auto",
-              "wideLayout": true
-            },
-            "pluginVersion": "12.3.4",
-            "targets": [
-              {
-                "datasource": "${datasource}",
-                "format": "table",
-                "rawSql": "SELECT ROUND(COALESCE(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0),0) AS \"value\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)",
-                "refId": "A"
-              }
-            ],
-            "title": "Meters Dispatched (Period)",
-            "type": "stat"
-          }
-        ],
+        "panels": [],
         "title": "📊  Inventory KPIs",
         "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 20000
+                },
+                {
+                  "color": "green",
+                  "value": 50000
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 0,
+          "y": 1
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.0",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT ROUND(\n    COALESCE((SELECT SUM(s.quantity*s.length_per_unit)\n      FROM inventory_stock s\n      JOIN product_variants pv ON s.product_variant_id=pv.id\n      JOIN product_types pt ON pv.product_type_id=pt.id\n      WHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n        AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'),0)\n    +COALESCE((SELECT SUM(h.length_meters)\n      FROM hdpe_cut_pieces h\n      WHERE h.status='IN_STOCK' AND h.deleted_at IS NULL),0)\n,0) AS \"value\" ",
+            "refId": "A"
+          }
+        ],
+        "title": "Total HDPE Meters In Stock",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 5,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.0",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT ROUND(COALESCE(SUM(s.quantity*s.length_per_unit),0),0) AS \"value\"\nFROM inventory_stock s\nJOIN product_variants pv ON s.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n  AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'",
+            "refId": "A"
+          }
+        ],
+        "title": "Full Roll Meters",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 9,
+          "y": 1
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.0",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT ROUND(COALESCE(SUM(length_meters),0),0) AS \"value\"\nFROM hdpe_cut_pieces WHERE status='IN_STOCK' AND deleted_at IS NULL",
+            "refId": "A"
+          }
+        ],
+        "title": "Cut Piece Meters",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 3,
+          "x": 13,
+          "y": 1
+        },
+        "id": 5,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.0",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(DISTINCT pv.parameters)::BIGINT AS \"value\"\nFROM inventory_stock s\nJOIN product_variants pv ON s.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE s.status='IN_STOCK' AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'",
+            "refId": "A"
+          }
+        ],
+        "title": "Unique Specs In Stock",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 3,
+          "x": 16,
+          "y": 1
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.0",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\" FROM batches b\nJOIN product_variants pv ON b.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE b.status='ACTIVE' AND b.deleted_at IS NULL AND pt.name='HDPE Pipe'",
+            "refId": "A"
+          }
+        ],
+        "title": "Active Batches",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 19,
+          "y": 1
+        },
+        "id": 7,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.0",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT ROUND(COALESCE(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0),0) AS \"value\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Meters Dispatched (Period)",
+        "type": "stat"
       },
       {
         "collapsed": false,
@@ -413,7 +395,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 1
+          "y": 5
         },
         "id": 8,
         "panels": [],
@@ -424,56 +406,15 @@
         "datasource": "${datasource}",
         "fieldConfig": {
           "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
             "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
               "fillOpacity": 60,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
               "lineInterpolation": "smooth",
               "lineWidth": 2,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "showValues": false,
               "spanNulls": true,
               "stacking": {
                 "group": "A",
                 "mode": "value"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
               }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
             },
             "unit": "lengthm"
           },
@@ -483,12 +424,11 @@
           "h": 10,
           "w": 16,
           "x": 0,
-          "y": 2
+          "y": 6
         },
         "id": 9,
         "options": {
           "legend": {
-            "calcs": [],
             "displayMode": "table",
             "placement": "right",
             "showLegend": true,
@@ -498,12 +438,11 @@
             ]
           },
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -522,14 +461,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
             "unit": "lengthm"
           },
           "overrides": []
@@ -538,7 +469,7 @@
           "h": 10,
           "w": 8,
           "x": 16,
-          "y": 2
+          "y": 6
         },
         "id": 10,
         "options": {
@@ -556,21 +487,12 @@
             ]
           },
           "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "sort": "desc",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -600,41 +522,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
             "unit": "lengthm"
           },
           "overrides": []
@@ -643,32 +530,25 @@
           "h": 9,
           "w": 8,
           "x": 0,
-          "y": 12
+          "y": 16
         },
         "id": 11,
         "options": {
           "barRadius": 0.04,
-          "barWidth": 0.97,
-          "fullHighlight": false,
-          "groupWidth": 0.7,
           "legend": {
-            "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
           },
           "orientation": "horizontal",
-          "showValue": "auto",
           "stacking": "none",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           },
-          "xTickLabelRotation": -30,
-          "xTickLabelSpacing": 0
+          "xTickLabelRotation": -30
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -687,41 +567,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
             "unit": "lengthm"
           },
           "overrides": []
@@ -730,32 +575,25 @@
           "h": 9,
           "w": 8,
           "x": 8,
-          "y": 12
+          "y": 16
         },
         "id": 12,
         "options": {
           "barRadius": 0.04,
-          "barWidth": 0.97,
-          "fullHighlight": false,
-          "groupWidth": 0.7,
           "legend": {
-            "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
           },
           "orientation": "horizontal",
-          "showValue": "auto",
           "stacking": "none",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           },
-          "xTickLabelRotation": -30,
-          "xTickLabelSpacing": 0
+          "xTickLabelRotation": -30
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -774,41 +612,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
             "unit": "lengthm"
           },
           "overrides": []
@@ -817,32 +620,25 @@
           "h": 9,
           "w": 8,
           "x": 16,
-          "y": 12
+          "y": 16
         },
         "id": 13,
         "options": {
           "barRadius": 0.04,
-          "barWidth": 0.97,
-          "fullHighlight": false,
-          "groupWidth": 0.7,
           "legend": {
-            "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
           },
           "orientation": "horizontal",
-          "showValue": "auto",
           "stacking": "none",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           },
-          "xTickLabelRotation": -30,
-          "xTickLabelSpacing": 0
+          "xTickLabelRotation": -30
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -860,30 +656,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -892,15 +666,22 @@
           "h": 11,
           "w": 24,
           "x": 0,
-          "y": 21
+          "y": 25
         },
         "id": 14,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -918,7 +699,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 32
+          "y": 36
         },
         "id": 15,
         "panels": [],
@@ -932,41 +713,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
             "unit": "lengthm"
           },
           "overrides": []
@@ -975,32 +721,25 @@
           "h": 10,
           "w": 16,
           "x": 0,
-          "y": 33
+          "y": 37
         },
         "id": 16,
         "options": {
           "barRadius": 0.04,
-          "barWidth": 0.97,
-          "fullHighlight": false,
-          "groupWidth": 0.7,
           "legend": {
-            "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
           },
           "orientation": "auto",
-          "showValue": "auto",
           "stacking": "value",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           },
-          "xTickLabelRotation": -30,
-          "xTickLabelSpacing": 0
+          "xTickLabelRotation": -30
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1019,14 +758,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
             "unit": "lengthm"
           },
           "overrides": []
@@ -1035,7 +766,7 @@
           "h": 10,
           "w": 8,
           "x": 16,
-          "y": 33
+          "y": 37
         },
         "id": 17,
         "options": {
@@ -1053,21 +784,12 @@
             ]
           },
           "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "sort": "desc",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1096,30 +818,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -1128,15 +828,22 @@
           "h": 11,
           "w": 24,
           "x": 0,
-          "y": 43
+          "y": 47
         },
         "id": 18,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1154,7 +861,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 54
+          "y": 58
         },
         "id": 19,
         "panels": [],
@@ -1165,56 +872,15 @@
         "datasource": "${datasource}",
         "fieldConfig": {
           "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
             "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
               "fillOpacity": 50,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
               "lineInterpolation": "smooth",
               "lineWidth": 2,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "showValues": false,
               "spanNulls": true,
               "stacking": {
                 "group": "A",
                 "mode": "value"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
               }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
             },
             "unit": "lengthm"
           },
@@ -1224,12 +890,11 @@
           "h": 10,
           "w": 16,
           "x": 0,
-          "y": 55
+          "y": 59
         },
         "id": 20,
         "options": {
           "legend": {
-            "calcs": [],
             "displayMode": "table",
             "placement": "right",
             "showLegend": true,
@@ -1239,12 +904,11 @@
             ]
           },
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1263,14 +927,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
             "unit": "lengthm"
           },
           "overrides": []
@@ -1279,7 +935,7 @@
           "h": 10,
           "w": 8,
           "x": 16,
-          "y": 55
+          "y": 59
         },
         "id": 21,
         "options": {
@@ -1297,21 +953,12 @@
             ]
           },
           "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "sort": "desc",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1341,41 +988,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
             "unit": "lengthm"
           },
           "overrides": []
@@ -1384,32 +996,25 @@
           "h": 10,
           "w": 24,
           "x": 0,
-          "y": 65
+          "y": 69
         },
         "id": 22,
         "options": {
           "barRadius": 0.04,
-          "barWidth": 0.97,
-          "fullHighlight": false,
-          "groupWidth": 0.7,
           "legend": {
-            "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
           },
           "orientation": "auto",
-          "showValue": "auto",
           "stacking": "value",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           },
-          "xTickLabelRotation": -30,
-          "xTickLabelSpacing": 0
+          "xTickLabelRotation": -30
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1427,30 +1032,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -1459,15 +1042,22 @@
           "h": 11,
           "w": 24,
           "x": 0,
-          "y": 75
+          "y": 79
         },
         "id": 23,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1485,7 +1075,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 86
+          "y": 90
         },
         "id": 24,
         "panels": [],
@@ -1506,7 +1096,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -1518,7 +1108,7 @@
           "h": 4,
           "w": 5,
           "x": 0,
-          "y": 87
+          "y": 91
         },
         "id": 25,
         "options": {
@@ -1526,7 +1116,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1534,11 +1123,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1564,7 +1151,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -1576,7 +1163,7 @@
           "h": 4,
           "w": 5,
           "x": 5,
-          "y": 87
+          "y": 91
         },
         "id": 26,
         "options": {
@@ -1584,7 +1171,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1592,11 +1178,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1622,7 +1206,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -1634,7 +1218,7 @@
           "h": 4,
           "w": 5,
           "x": 10,
-          "y": 87
+          "y": 91
         },
         "id": 27,
         "options": {
@@ -1642,7 +1226,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1650,11 +1233,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1680,7 +1261,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -1692,7 +1273,7 @@
           "h": 4,
           "w": 5,
           "x": 15,
-          "y": 87
+          "y": 91
         },
         "id": 28,
         "options": {
@@ -1700,7 +1281,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1708,11 +1288,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1738,7 +1316,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -1750,7 +1328,7 @@
           "h": 4,
           "w": 4,
           "x": 20,
-          "y": 87
+          "y": 91
         },
         "id": 29,
         "options": {
@@ -1758,7 +1336,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1766,11 +1343,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1786,56 +1361,15 @@
         "datasource": "${datasource}",
         "fieldConfig": {
           "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
             "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
               "fillOpacity": 15,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
               "lineInterpolation": "smooth",
               "lineWidth": 2,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "showValues": false,
               "spanNulls": true,
               "stacking": {
                 "group": "A",
                 "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
               }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
             },
             "unit": "lengthm"
           },
@@ -1845,12 +1379,11 @@
           "h": 10,
           "w": 16,
           "x": 0,
-          "y": 91
+          "y": 95
         },
         "id": 30,
         "options": {
           "legend": {
-            "calcs": [],
             "displayMode": "table",
             "placement": "right",
             "showLegend": true,
@@ -1860,12 +1393,11 @@
             ]
           },
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1884,14 +1416,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
             "unit": "lengthm"
           },
           "overrides": []
@@ -1900,7 +1424,7 @@
           "h": 10,
           "w": 8,
           "x": 16,
-          "y": 91
+          "y": 95
         },
         "id": 31,
         "options": {
@@ -1918,21 +1442,12 @@
             ]
           },
           "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "sort": "desc",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1961,30 +1476,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -1993,15 +1486,22 @@
           "h": 12,
           "w": 24,
           "x": 0,
-          "y": 101
+          "y": 105
         },
         "id": 32,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -2019,30 +1519,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -2051,15 +1529,22 @@
           "h": 11,
           "w": 24,
           "x": 0,
-          "y": 113
+          "y": 117
         },
         "id": 33,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -2078,41 +1563,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
             "unit": "lengthm"
           },
           "overrides": []
@@ -2121,32 +1571,25 @@
           "h": 11,
           "w": 24,
           "x": 0,
-          "y": 124
+          "y": 128
         },
         "id": 34,
         "options": {
           "barRadius": 0.04,
-          "barWidth": 0.97,
-          "fullHighlight": false,
-          "groupWidth": 0.7,
           "legend": {
-            "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
           },
           "orientation": "horizontal",
-          "showValue": "auto",
           "stacking": "value",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           },
-          "xTickLabelRotation": -30,
-          "xTickLabelSpacing": 0
+          "xTickLabelRotation": -30
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -2164,7 +1607,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 135
+          "y": 139
         },
         "id": 35,
         "panels": [],
@@ -2177,30 +1620,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -2209,15 +1630,22 @@
           "h": 12,
           "w": 24,
           "x": 0,
-          "y": 136
+          "y": 140
         },
         "id": 36,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -2230,9 +1658,8 @@
         "type": "table"
       }
     ],
-    "preload": false,
     "refresh": "5m",
-    "schemaVersion": 42,
+    "schemaVersion": 38,
     "tags": [
       "hdpe",
       "inventory",
@@ -2247,64 +1674,46 @@
     "templating": {
       "list": [
         {
-          "current": {
-            "text": "grafana-postgresql-tarko",
-            "value": "bffylbfypp3pcc"
-          },
+          "current": {},
+          "hide": 0,
           "label": "Data Source",
           "name": "datasource",
-          "options": [],
+          "pluginId": "postgres",
           "query": "postgres",
-          "refresh": 1,
           "type": "datasource"
         },
         {
-          "current": {
-            "text": "All",
-            "value": [
-              "$__all"
-            ]
-          },
+          "current": {},
           "datasource": "${datasource}",
+          "hide": 0,
           "includeAll": true,
           "label": "OD (mm)",
           "multi": true,
           "name": "od",
-          "options": [],
           "query": "SELECT DISTINCT pv.parameters-\u003e\u003e'OD' AS __value\nFROM product_variants pv JOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND pv.deleted_at IS NULL ORDER BY 1",
           "refresh": 1,
           "type": "query"
         },
         {
-          "current": {
-            "text": "All",
-            "value": [
-              "$__all"
-            ]
-          },
+          "current": {},
           "datasource": "${datasource}",
+          "hide": 0,
           "includeAll": true,
           "label": "PE Grade",
           "multi": true,
           "name": "pe",
-          "options": [],
           "query": "SELECT DISTINCT pv.parameters-\u003e\u003e'PE' AS __value\nFROM product_variants pv JOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND pv.deleted_at IS NULL ORDER BY 1",
           "refresh": 1,
           "type": "query"
         },
         {
-          "current": {
-            "text": "All",
-            "value": [
-              "$__all"
-            ]
-          },
+          "current": {},
           "datasource": "${datasource}",
+          "hide": 0,
           "includeAll": true,
           "label": "PN Rating",
           "multi": true,
           "name": "pn",
-          "options": [],
           "query": "SELECT DISTINCT pv.parameters-\u003e\u003e'PN' AS __value\nFROM product_variants pv JOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND pv.deleted_at IS NULL ORDER BY 1",
           "refresh": 1,
           "type": "query"
