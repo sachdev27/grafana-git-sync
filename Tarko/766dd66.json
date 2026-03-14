@@ -1854,7 +1854,10 @@
     "templating": {
       "list": [
         {
-          "current": {},
+          "current": {
+            "text": "grafana-postgresql-tarko",
+            "value": "bffylbfypp3pcc"
+          },
           "label": "Data Source",
           "name": "datasource",
           "options": [],
@@ -1863,7 +1866,14 @@
           "type": "datasource"
         },
         {
-          "current": {},
+          "current": {
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
           "datasource": "${datasource}",
           "includeAll": true,
           "label": "Transport",
@@ -1875,7 +1885,14 @@
           "type": "query"
         },
         {
-          "current": {},
+          "current": {
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
           "datasource": "${datasource}",
           "includeAll": true,
           "label": "Driver",
