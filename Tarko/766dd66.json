@@ -1,5 +1,5 @@
 {
-  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
   "kind": "Dashboard",
   "metadata": {
     "name": "tarko-transport-v1"
@@ -26,6 +26,7 @@
     "fiscalYearStartMonth": 3,
     "graphTooltip": 1,
     "links": [],
+    "liveNow": false,
     "panels": [
       {
         "collapsed": false,
@@ -54,7 +55,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -74,7 +75,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -82,11 +82,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -112,7 +110,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -132,7 +130,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -140,11 +137,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -170,7 +165,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -190,7 +185,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -198,11 +192,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -228,7 +220,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -248,7 +240,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -256,11 +247,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -286,7 +275,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -306,7 +295,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -314,11 +302,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -347,56 +333,15 @@
         "datasource": "${datasource}",
         "fieldConfig": {
           "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
             "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
               "fillOpacity": 65,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
               "lineInterpolation": "smooth",
               "lineWidth": 2,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "showValues": false,
               "spanNulls": true,
               "stacking": {
                 "group": "A",
                 "mode": "value"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
               }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
             },
             "unit": "short"
           },
@@ -411,7 +356,6 @@
         "id": 8,
         "options": {
           "legend": {
-            "calcs": [],
             "displayMode": "table",
             "placement": "right",
             "showLegend": true,
@@ -421,12 +365,11 @@
             ]
           },
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -445,14 +388,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
             "unit": "short"
           },
           "overrides": []
@@ -475,21 +410,12 @@
             ]
           },
           "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "sort": "desc",
           "tooltip": {
-            "hideZeros": false,
-            "mode": "single",
+            "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -499,73 +425,21 @@
           }
         ],
         "title": "Dispatch Share by Transport",
-        "transformations": [
-          {
-            "id": "partitionByValues",
-            "options": {
-              "fields": [
-                "Transport"
-              ],
-              "keepFields": false
-            }
-          }
-        ],
         "type": "piechart"
       },
       {
         "datasource": "${datasource}",
         "fieldConfig": {
           "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
             "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
               "fillOpacity": 65,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
               "lineInterpolation": "smooth",
               "lineWidth": 2,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "showValues": false,
               "spanNulls": true,
               "stacking": {
                 "group": "A",
                 "mode": "value"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
               }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
             },
             "unit": "lengthm"
           },
@@ -580,7 +454,6 @@
         "id": 10,
         "options": {
           "legend": {
-            "calcs": [],
             "displayMode": "table",
             "placement": "right",
             "showLegend": true,
@@ -590,12 +463,11 @@
             ]
           },
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -614,14 +486,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
             "unit": "lengthm"
           },
           "overrides": []
@@ -644,21 +508,12 @@
             ]
           },
           "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "sort": "desc",
           "tooltip": {
-            "hideZeros": false,
-            "mode": "single",
+            "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -668,17 +523,6 @@
           }
         ],
         "title": "Meters Share by Transport",
-        "transformations": [
-          {
-            "id": "partitionByValues",
-            "options": {
-              "fields": [
-                "Transport"
-              ],
-              "keepFields": false
-            }
-          }
-        ],
         "type": "piechart"
       },
       {
@@ -687,30 +531,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -724,10 +546,17 @@
         "id": 12,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -756,56 +585,15 @@
         "datasource": "${datasource}",
         "fieldConfig": {
           "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
             "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
               "fillOpacity": 65,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
               "lineInterpolation": "smooth",
               "lineWidth": 2,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "showValues": false,
               "spanNulls": true,
               "stacking": {
                 "group": "A",
                 "mode": "value"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
               }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
             },
             "unit": "short"
           },
@@ -820,7 +608,6 @@
         "id": 14,
         "options": {
           "legend": {
-            "calcs": [],
             "displayMode": "table",
             "placement": "right",
             "showLegend": true,
@@ -830,12 +617,11 @@
             ]
           },
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -854,14 +640,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
             "unit": "short"
           },
           "overrides": []
@@ -884,116 +662,36 @@
             ]
           },
           "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "sort": "desc",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
-            "editorMode": "code",
             "format": "table",
-            "rawQuery": true,
             "rawSql": "SELECT\n  CONCAT(v.driver_name,' — ',v.vehicle_number) AS \"Driver / Vehicle\",\n  COUNT(d.id) AS \"Dispatches\"\nFROM dispatches d\nJOIN vehicles v ON d.vehicle_id=v.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY v.driver_name, v.vehicle_number\nORDER BY COUNT(d.id) DESC",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "parameters": [],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50
-            }
+            "refId": "A"
           }
         ],
         "title": "Dispatch Share by Driver",
-        "transformations": [
-          {
-            "id": "partitionByValues",
-            "options": {
-              "fields": [
-                "Driver / Vehicle"
-              ],
-              "keepFields": false
-            }
-          }
-        ],
         "type": "piechart"
       },
       {
         "datasource": "${datasource}",
         "fieldConfig": {
           "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
             "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
               "fillOpacity": 65,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
               "lineInterpolation": "smooth",
               "lineWidth": 2,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "showValues": false,
               "spanNulls": true,
               "stacking": {
                 "group": "A",
                 "mode": "value"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
               }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
             },
             "unit": "lengthm"
           },
@@ -1008,7 +706,6 @@
         "id": 16,
         "options": {
           "legend": {
-            "calcs": [],
             "displayMode": "table",
             "placement": "right",
             "showLegend": true,
@@ -1018,12 +715,11 @@
             ]
           },
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1042,14 +738,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
             "unit": "lengthm"
           },
           "overrides": []
@@ -1072,21 +760,12 @@
             ]
           },
           "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "sort": "desc",
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1096,17 +775,6 @@
           }
         ],
         "title": "Meters by Vehicle Type",
-        "transformations": [
-          {
-            "id": "partitionByValues",
-            "options": {
-              "fields": [
-                "Vehicle Type"
-              ],
-              "keepFields": false
-            }
-          }
-        ],
         "type": "piechart"
       },
       {
@@ -1115,30 +783,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -1152,10 +798,17 @@
         "id": 18,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1194,7 +847,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -1214,7 +867,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1222,11 +874,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1252,7 +902,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -1272,7 +922,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1280,11 +929,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1310,7 +957,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -1330,7 +977,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1338,11 +984,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1368,7 +1012,7 @@
               "steps": [
                 {
                   "color": "blue",
-                  "value": 0
+                  "value": null
                 }
               ]
             },
@@ -1388,7 +1032,6 @@
           "graphMode": "none",
           "justifyMode": "center",
           "orientation": "auto",
-          "percentChangeColorMode": "standard",
           "reduceOptions": {
             "calcs": [
               "lastNotNull"
@@ -1396,11 +1039,9 @@
             "fields": "",
             "values": false
           },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
+          "textMode": "auto"
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1416,56 +1057,15 @@
         "datasource": "${datasource}",
         "fieldConfig": {
           "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
             "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
               "fillOpacity": 65,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
               "lineInterpolation": "smooth",
               "lineWidth": 2,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "showValues": false,
               "spanNulls": true,
               "stacking": {
                 "group": "A",
                 "mode": "value"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
               }
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
             },
             "unit": "short"
           },
@@ -1480,7 +1080,6 @@
         "id": 24,
         "options": {
           "legend": {
-            "calcs": [],
             "displayMode": "table",
             "placement": "right",
             "showLegend": true,
@@ -1490,12 +1089,11 @@
             ]
           },
           "tooltip": {
-            "hideZeros": false,
             "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1514,14 +1112,6 @@
             "color": {
               "mode": "palette-classic"
             },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "mappings": [],
             "unit": "short"
           },
           "overrides": []
@@ -1544,21 +1134,12 @@
             ]
           },
           "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "sort": "desc",
           "tooltip": {
-            "hideZeros": false,
-            "mode": "single",
+            "mode": "multi",
             "sort": "desc"
           }
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1568,17 +1149,6 @@
           }
         ],
         "title": "Dispatch Share — Effective Buyers",
-        "transformations": [
-          {
-            "id": "partitionByValues",
-            "options": {
-              "fields": [
-                "Effective Buyer"
-              ],
-              "keepFields": false
-            }
-          }
-        ],
         "type": "piechart"
       },
       {
@@ -1587,30 +1157,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -1624,10 +1172,17 @@
         "id": 26,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1658,30 +1213,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -1695,10 +1228,17 @@
         "id": 28,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1729,30 +1269,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -1766,10 +1284,17 @@
         "id": 30,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1787,30 +1312,8 @@
           "defaults": {
             "custom": {
               "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "filterable": true,
-              "footer": {
-                "reducers": [
-                  "sum"
-                ]
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+              "displayMode": "auto",
+              "filterable": true
             }
           },
           "overrides": []
@@ -1824,10 +1327,17 @@
         "id": 31,
         "options": {
           "cellHeight": "sm",
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": true
+          },
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "12.3.4",
+        "pluginVersion": "10.0.0",
         "targets": [
           {
             "datasource": "${datasource}",
@@ -1840,9 +1350,8 @@
         "type": "table"
       }
     ],
-    "preload": false,
     "refresh": "10m",
-    "schemaVersion": 42,
+    "schemaVersion": 38,
     "tags": [
       "transport",
       "drivers",
@@ -1854,51 +1363,34 @@
     "templating": {
       "list": [
         {
-          "current": {
-            "text": "grafana-postgresql-tarko",
-            "value": "bffylbfypp3pcc"
-          },
+          "current": {},
+          "hide": 0,
           "label": "Data Source",
           "name": "datasource",
-          "options": [],
+          "pluginId": "postgres",
           "query": "postgres",
-          "refresh": 1,
           "type": "datasource"
         },
         {
-          "current": {
-            "text": [
-              "All"
-            ],
-            "value": [
-              "$__all"
-            ]
-          },
+          "current": {},
           "datasource": "${datasource}",
+          "hide": 0,
           "includeAll": true,
           "label": "Transport",
           "multi": true,
           "name": "transport",
-          "options": [],
           "query": "SELECT DISTINCT name AS __value FROM transports WHERE deleted_at IS NULL ORDER BY name",
           "refresh": 1,
           "type": "query"
         },
         {
-          "current": {
-            "text": [
-              "All"
-            ],
-            "value": [
-              "$__all"
-            ]
-          },
+          "current": {},
           "datasource": "${datasource}",
+          "hide": 0,
           "includeAll": true,
           "label": "Driver",
           "multi": true,
           "name": "driver",
-          "options": [],
           "query": "SELECT DISTINCT driver_name AS __value FROM vehicles WHERE deleted_at IS NULL ORDER BY driver_name",
           "refresh": 1,
           "type": "query"
