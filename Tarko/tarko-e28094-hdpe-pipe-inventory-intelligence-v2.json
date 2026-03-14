@@ -1,0 +1,2323 @@
+{
+  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "tarko-hdpe-v2"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0,211,255,1)",
+          "name": "Annotations \u0026 Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "OD×PE×PN spec inventory with Bill-To resolved buyer intelligence. No transport panels — see Transport dashboard.",
+    "editable": true,
+    "fiscalYearStartMonth": 3,
+    "graphTooltip": 1,
+    "links": [
+      {
+        "icon": "external link",
+        "tags": [],
+        "targetBlank": true,
+        "title": "Transport \u0026 Drivers Dashboard",
+        "tooltip": "Open Transport Dashboard",
+        "type": "link",
+        "url": "/d/tarko-transport-v1"
+      }
+    ],
+    "panels": [
+      {
+        "collapsed": true,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "panels": [
+          {
+            "datasource": "${datasource}",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": 0
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 20000
+                    },
+                    {
+                      "color": "green",
+                      "value": 50000
+                    }
+                  ]
+                },
+                "unit": "lengthm"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 4,
+              "w": 5,
+              "x": 0,
+              "y": 1
+            },
+            "id": 2,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "center",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": "12.3.4",
+            "targets": [
+              {
+                "datasource": "${datasource}",
+                "format": "table",
+                "rawSql": "SELECT ROUND(\n    COALESCE((SELECT SUM(s.quantity*s.length_per_unit)\n      FROM inventory_stock s\n      JOIN product_variants pv ON s.product_variant_id=pv.id\n      JOIN product_types pt ON pv.product_type_id=pt.id\n      WHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n        AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'),0)\n    +COALESCE((SELECT SUM(h.length_meters)\n      FROM hdpe_cut_pieces h\n      WHERE h.status='IN_STOCK' AND h.deleted_at IS NULL),0)\n,0) AS \"value\" ",
+                "refId": "A"
+              }
+            ],
+            "title": "Total HDPE Meters In Stock",
+            "type": "stat"
+          },
+          {
+            "datasource": "${datasource}",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "lengthm"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 4,
+              "w": 4,
+              "x": 5,
+              "y": 1
+            },
+            "id": 3,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "center",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": "12.3.4",
+            "targets": [
+              {
+                "datasource": "${datasource}",
+                "format": "table",
+                "rawSql": "SELECT ROUND(COALESCE(SUM(s.quantity*s.length_per_unit),0),0) AS \"value\"\nFROM inventory_stock s\nJOIN product_variants pv ON s.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n  AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'",
+                "refId": "A"
+              }
+            ],
+            "title": "Full Roll Meters",
+            "type": "stat"
+          },
+          {
+            "datasource": "${datasource}",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "lengthm"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 4,
+              "w": 4,
+              "x": 9,
+              "y": 1
+            },
+            "id": 4,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "center",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": "12.3.4",
+            "targets": [
+              {
+                "datasource": "${datasource}",
+                "format": "table",
+                "rawSql": "SELECT ROUND(COALESCE(SUM(length_meters),0),0) AS \"value\"\nFROM hdpe_cut_pieces WHERE status='IN_STOCK' AND deleted_at IS NULL",
+                "refId": "A"
+              }
+            ],
+            "title": "Cut Piece Meters",
+            "type": "stat"
+          },
+          {
+            "datasource": "${datasource}",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 4,
+              "w": 3,
+              "x": 13,
+              "y": 1
+            },
+            "id": 5,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "center",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": "12.3.4",
+            "targets": [
+              {
+                "datasource": "${datasource}",
+                "format": "table",
+                "rawSql": "SELECT COUNT(DISTINCT pv.parameters)::BIGINT AS \"value\"\nFROM inventory_stock s\nJOIN product_variants pv ON s.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE s.status='IN_STOCK' AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'",
+                "refId": "A"
+              }
+            ],
+            "title": "Unique Specs In Stock",
+            "type": "stat"
+          },
+          {
+            "datasource": "${datasource}",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 4,
+              "w": 3,
+              "x": 16,
+              "y": 1
+            },
+            "id": 6,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "center",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": "12.3.4",
+            "targets": [
+              {
+                "datasource": "${datasource}",
+                "format": "table",
+                "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\" FROM batches b\nJOIN product_variants pv ON b.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE b.status='ACTIVE' AND b.deleted_at IS NULL AND pt.name='HDPE Pipe'",
+                "refId": "A"
+              }
+            ],
+            "title": "Active Batches",
+            "type": "stat"
+          },
+          {
+            "datasource": "${datasource}",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "decimals": 0,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "blue",
+                      "value": 0
+                    }
+                  ]
+                },
+                "unit": "lengthm"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 4,
+              "w": 5,
+              "x": 19,
+              "y": 1
+            },
+            "id": 7,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "center",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": "12.3.4",
+            "targets": [
+              {
+                "datasource": "${datasource}",
+                "format": "table",
+                "rawSql": "SELECT ROUND(COALESCE(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0),0) AS \"value\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)",
+                "refId": "A"
+              }
+            ],
+            "title": "Meters Dispatched (Period)",
+            "type": "stat"
+          }
+        ],
+        "title": "📊  Inventory KPIs",
+        "type": "row"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "id": 8,
+        "panels": [],
+        "title": "🏭  Production — What Is Being Made \u0026 When",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 60,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "showValues": false,
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "value"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 0,
+          "y": 2
+        },
+        "id": 9,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "sum",
+              "max"
+            ]
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "time_series",
+            "rawSql": "SELECT\n  DATE_TRUNC('month', b.production_date) AS \"time\",\n  CONCAT('OD',pv.parameters-\u003e\u003e'OD',' PE',pv.parameters-\u003e\u003e'PE',' PN',pv.parameters-\u003e\u003e'PN') AS metric,\n  SUM(b.initial_quantity) AS value\nFROM batches b\nJOIN product_variants pv ON b.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND b.deleted_at IS NULL AND b.status!='REVERTED'\n  AND $__timeFilter(b.production_date)\nGROUP BY DATE_TRUNC('month',b.production_date),\n         pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN'\nORDER BY 1",
+            "refId": "A"
+          }
+        ],
+        "title": "Monthly Production by Pipe Spec (Stacked Meters)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 16,
+          "y": 2
+        },
+        "id": 10,
+        "options": {
+          "displayLabels": [
+            "name",
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "sort": "desc",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CONCAT('OD',pv.parameters-\u003e\u003e'OD',' PE',pv.parameters-\u003e\u003e'PE',' PN',pv.parameters-\u003e\u003e'PN') AS \"name\",\n  ROUND(SUM(b.initial_quantity),0)::FLOAT AS \"value\"\nFROM batches b\nJOIN product_variants pv ON b.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND b.deleted_at IS NULL AND b.status!='REVERTED'\nGROUP BY pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN'\nORDER BY 2 DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Production Share by Spec",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "name"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 0,
+          "y": 12
+        },
+        "id": 11,
+        "options": {
+          "barRadius": 0.04,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          },
+          "xTickLabelRotation": -30,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CONCAT('OD ',pv.parameters-\u003e\u003e'OD','mm') AS \"OD\",\n  ROUND(SUM(b.initial_quantity),0) AS \"Meters Produced\"\nFROM batches b\nJOIN product_variants pv ON b.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND b.deleted_at IS NULL AND b.status!='REVERTED'\n  AND $__timeFilter(b.production_date)\nGROUP BY pv.parameters-\u003e\u003e'OD'\nORDER BY SUM(b.initial_quantity) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Meters Produced by OD Size",
+        "type": "barchart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 8,
+          "y": 12
+        },
+        "id": 12,
+        "options": {
+          "barRadius": 0.04,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          },
+          "xTickLabelRotation": -30,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CONCAT('PE ',pv.parameters-\u003e\u003e'PE') AS \"PE Grade\",\n  ROUND(SUM(b.initial_quantity),0) AS \"Meters Produced\"\nFROM batches b\nJOIN product_variants pv ON b.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND b.deleted_at IS NULL AND b.status!='REVERTED'\n  AND $__timeFilter(b.production_date)\nGROUP BY pv.parameters-\u003e\u003e'PE'\nORDER BY SUM(b.initial_quantity) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Meters Produced by PE Grade",
+        "type": "barchart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 16,
+          "y": 12
+        },
+        "id": 13,
+        "options": {
+          "barRadius": 0.04,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          },
+          "xTickLabelRotation": -30,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CONCAT('PN ',pv.parameters-\u003e\u003e'PN') AS \"PN Rating\",\n  ROUND(SUM(b.initial_quantity),0) AS \"Meters Produced\"\nFROM batches b\nJOIN product_variants pv ON b.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND b.deleted_at IS NULL AND b.status!='REVERTED'\n  AND $__timeFilter(b.production_date)\nGROUP BY pv.parameters-\u003e\u003e'PN'\nORDER BY SUM(b.initial_quantity) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Meters Produced by PN Rating",
+        "type": "barchart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 21
+        },
+        "id": 14,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  pv.parameters-\u003e\u003e'OD'                           AS \"OD (mm)\",\n  pv.parameters-\u003e\u003e'PE'                           AS \"PE\",\n  pv.parameters-\u003e\u003e'PN'                           AS \"PN\",\n  COUNT(DISTINCT b.id)                           AS \"Batches\",\n  ROUND(SUM(b.initial_quantity),0)               AS \"Total Produced (m)\",\n  ROUND(SUM(b.current_quantity),0)               AS \"In Batches (m)\",\n  ROUND(SUM(b.initial_quantity-b.current_quantity),0) AS \"Consumed (m)\",\n  ROUND(100.0*SUM(b.initial_quantity-b.current_quantity)\n    /NULLIF(SUM(b.initial_quantity),0),1)        AS \"Utilization %\",\n  COUNT(b.id) FILTER (WHERE b.status='ACTIVE')   AS \"Active Batches\",\n  COUNT(b.id) FILTER (WHERE b.status='CONSUMED') AS \"Fully Consumed\"\nFROM batches b\nJOIN product_variants pv ON b.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND b.deleted_at IS NULL AND b.status!='REVERTED'\nGROUP BY pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN'\nORDER BY SUM(b.initial_quantity) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Production Detail — All Specs (Produced vs Consumed vs Active)",
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 32
+        },
+        "id": 15,
+        "panels": [],
+        "title": "📦  Live Stock — What Is Available Right Now",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 0,
+          "y": 33
+        },
+        "id": 16,
+        "options": {
+          "barRadius": 0.04,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "value",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          },
+          "xTickLabelRotation": -30,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "WITH fr AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn,\n         SUM(s.quantity*s.length_per_unit) AS meters\n  FROM inventory_stock s\n  JOIN product_variants pv ON s.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n    AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'\n  GROUP BY 1,2,3\n),\ncp AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn, SUM(h.length_meters) AS meters\n  FROM hdpe_cut_pieces h\n  JOIN inventory_stock s ON h.stock_id=s.id\n  JOIN product_variants pv ON s.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE h.status='IN_STOCK' AND h.deleted_at IS NULL\n  GROUP BY 1,2,3\n)\nSELECT\n  CONCAT('OD',COALESCE(fr.od,cp.od),' PE',COALESCE(fr.pe,cp.pe),' PN',COALESCE(fr.pn,cp.pn)) AS \"Spec\",\n  ROUND(COALESCE(fr.meters,0),0) AS \"Full Roll Meters\",\n  ROUND(COALESCE(cp.meters,0),0) AS \"Cut Piece Meters\"\nFROM fr FULL OUTER JOIN cp ON fr.od=cp.od AND fr.pe=cp.pe AND fr.pn=cp.pn\nORDER BY (COALESCE(fr.meters,0)+COALESCE(cp.meters,0)) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Live Stock by Spec — Full Roll vs Cut Piece Meters",
+        "type": "barchart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 16,
+          "y": 33
+        },
+        "id": 17,
+        "options": {
+          "displayLabels": [
+            "name",
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "sort": "desc",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "WITH fr AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn, SUM(s.quantity*s.length_per_unit) AS meters\n  FROM inventory_stock s\n  JOIN product_variants pv ON s.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n    AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'\n  GROUP BY 1,2,3\n),\ncp AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn, SUM(h.length_meters) AS meters\n  FROM hdpe_cut_pieces h\n  JOIN inventory_stock s ON h.stock_id=s.id\n  JOIN product_variants pv ON s.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE h.status='IN_STOCK' AND h.deleted_at IS NULL\n  GROUP BY 1,2,3\n)\nSELECT\n  CONCAT('OD',COALESCE(fr.od,cp.od),' PE',COALESCE(fr.pe,cp.pe),' PN',COALESCE(fr.pn,cp.pn)) AS \"name\",\n  ROUND(COALESCE(fr.meters,0)+COALESCE(cp.meters,0),0)::FLOAT AS \"value\"\nFROM fr FULL OUTER JOIN cp ON fr.od=cp.od AND fr.pe=cp.pe AND fr.pn=cp.pn\nORDER BY 2 DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Live Stock Share by Spec",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "name"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 43
+        },
+        "id": 18,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "WITH fr AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn,\n         SUM(s.quantity) AS rolls, MAX(s.length_per_unit) AS roll_len,\n         SUM(s.quantity*s.length_per_unit) AS fr_m\n  FROM inventory_stock s\n  JOIN product_variants pv ON s.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n    AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'\n  GROUP BY 1,2,3\n),\ncp AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn,\n         COUNT(h.id) AS pieces, ROUND(SUM(h.length_meters),2) AS cp_m,\n         ROUND(AVG(h.length_meters),2) AS avg_len\n  FROM hdpe_cut_pieces h\n  JOIN inventory_stock s ON h.stock_id=s.id\n  JOIN product_variants pv ON s.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE h.status='IN_STOCK' AND h.deleted_at IS NULL\n  GROUP BY 1,2,3\n)\nSELECT\n  COALESCE(fr.od,cp.od) AS \"OD (mm)\",\n  COALESCE(fr.pe,cp.pe) AS \"PE\",\n  COALESCE(fr.pn,cp.pn) AS \"PN\",\n  COALESCE(fr.rolls,0)  AS \"Full Rolls\",\n  fr.roll_len           AS \"m / Roll\",\n  ROUND(COALESCE(fr.fr_m,0),0) AS \"Full Roll Meters\",\n  COALESCE(cp.pieces,0) AS \"Cut Pieces\",\n  cp.avg_len            AS \"Avg Piece (m)\",\n  COALESCE(cp.cp_m,0)   AS \"Cut Piece Meters\",\n  ROUND(COALESCE(fr.fr_m,0)+COALESCE(cp.cp_m,0),0) AS \"Total Meters\"\nFROM fr FULL OUTER JOIN cp ON fr.od=cp.od AND fr.pe=cp.pe AND fr.pn=cp.pn\nORDER BY (COALESCE(fr.fr_m,0)+COALESCE(cp.cp_m,0)) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Live Stock Detail — Per Spec with Full Roll \u0026 Cut Piece Breakdown",
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 54
+        },
+        "id": 19,
+        "panels": [],
+        "title": "📉  Utilization — Consumption Over Time by Spec",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 50,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "showValues": false,
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "value"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 0,
+          "y": 55
+        },
+        "id": 20,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "sum",
+              "max"
+            ]
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "time_series",
+            "rawSql": "SELECT\n  DATE_TRUNC('month', d.dispatch_date) AS \"time\",\n  CONCAT('OD',pv.parameters-\u003e\u003e'OD',' PE',pv.parameters-\u003e\u003e'PE',' PN',pv.parameters-\u003e\u003e'PN') AS metric,\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0) AS value\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY DATE_TRUNC('month',d.dispatch_date),\n         pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN'\nORDER BY 1",
+            "refId": "A"
+          }
+        ],
+        "title": "Monthly Meters Dispatched by Spec",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 16,
+          "y": 55
+        },
+        "id": 21,
+        "options": {
+          "displayLabels": [
+            "name",
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "sort": "desc",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CONCAT('OD',pv.parameters-\u003e\u003e'OD',' PE',pv.parameters-\u003e\u003e'PE',' PN',pv.parameters-\u003e\u003e'PN') AS \"name\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0)::FLOAT AS \"value\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN'\nORDER BY 2 DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Dispatch Share by Spec (Period)",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "name"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 24,
+          "x": 0,
+          "y": 65
+        },
+        "id": 22,
+        "options": {
+          "barRadius": 0.04,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "value",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          },
+          "xTickLabelRotation": -30,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CONCAT('OD',pv.parameters-\u003e\u003e'OD',' PE',pv.parameters-\u003e\u003e'PE',' PN',pv.parameters-\u003e\u003e'PN') AS \"Spec\",\n  di.item_type AS \"Dispatch Type\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0) AS \"Meters\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN', di.item_type\nORDER BY SUM(CASE WHEN di.item_type='FULL_ROLL' THEN di.quantity*s.length_per_unit\n               WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n               ELSE 0 END) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "How Each Spec Leaves — Full Roll vs Cut Piece Meters",
+        "type": "barchart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 75
+        },
+        "id": 23,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "WITH prod AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn,\n         ROUND(SUM(b.initial_quantity),0) AS produced,\n         ROUND(SUM(b.current_quantity),0) AS in_batches\n  FROM batches b\n  JOIN product_variants pv ON b.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE pt.name='HDPE Pipe' AND b.deleted_at IS NULL AND b.status!='REVERTED'\n  GROUP BY 1,2,3\n),\ndisp AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn,\n         ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0) AS dispatched_m,\n         COUNT(DISTINCT CASE WHEN c.name='SELF' AND bt.name IS NOT NULL\n                             THEN bt.name ELSE c.name END) AS buyers\n  FROM dispatch_items di\n  JOIN dispatches d ON di.dispatch_id=d.id\n  JOIN inventory_stock s ON di.stock_id=s.id\n  JOIN product_variants pv ON di.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  JOIN customers c ON d.customer_id=c.id\n  LEFT JOIN bill_to bt ON d.bill_to_id=bt.id\n  WHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n    AND d.status NOT IN ('CANCELLED','REVERTED') AND pt.name='HDPE Pipe'\n  GROUP BY 1,2,3\n)\nSELECT\n  p.od AS \"OD (mm)\", p.pe AS \"PE\", p.pn AS \"PN\",\n  p.produced                            AS \"Produced (m)\",\n  COALESCE(d.dispatched_m,0)           AS \"Dispatched (m)\",\n  p.produced-COALESCE(d.dispatched_m,0) AS \"In Stock (m)\",\n  ROUND(100.0*COALESCE(d.dispatched_m,0)/NULLIF(p.produced,0),1) AS \"Utilization %\",\n  COALESCE(d.buyers,0)                  AS \"Unique Buyers\"\nFROM prod p\nLEFT JOIN disp d ON p.od=d.od AND p.pe=d.pe AND p.pn=d.pn\nORDER BY p.produced DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Spec Utilization — Produced vs Dispatched vs In Stock with Unique Buyers",
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 86
+        },
+        "id": 24,
+        "panels": [],
+        "title": "👥  Buyer Analysis — Customer \u0026 Bill-To Resolved",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 0,
+          "y": 87
+        },
+        "id": 25,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\"\nFROM dispatches d JOIN customers c ON d.customer_id=c.id\nWHERE c.name='SELF' AND d.bill_to_id IS NOT NULL\n  AND d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Dispatches via SELF → Bill-To",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 5,
+          "y": 87
+        },
+        "id": 26,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\"\nFROM dispatches d JOIN customers c ON d.customer_id=c.id\nWHERE c.name!='SELF' AND d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Direct Customer Dispatches",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 10,
+          "y": 87
+        },
+        "id": 27,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(DISTINCT CASE WHEN c.name='SELF' AND bt.name IS NOT NULL\n    THEN bt.name ELSE c.name END)::BIGINT AS \"value\"\nFROM dispatches d\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Unique Effective Buyers",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 15,
+          "y": 87
+        },
+        "id": 28,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(DISTINCT bt.id)::BIGINT AS \"value\"\nFROM dispatches d JOIN bill_to bt ON d.bill_to_id=bt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Unique Bill-To Entities",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 20,
+          "y": 87
+        },
+        "id": 29,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\"\nFROM dispatches d JOIN customers c ON d.customer_id=c.id\nWHERE c.name='SELF' AND d.bill_to_id IS NULL\n  AND d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Dispatches Without Bill-To (Self Pickup)",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 15,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "showValues": false,
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 0,
+          "y": 91
+        },
+        "id": 30,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "sum",
+              "max"
+            ]
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "time_series",
+            "rawSql": "WITH top8 AS (\n  SELECT CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END AS buyer\n  FROM dispatch_items di\n  JOIN dispatches d ON di.dispatch_id=d.id\n  JOIN customers c ON d.customer_id=c.id\n  LEFT JOIN bill_to bt ON d.bill_to_id=bt.id\n  JOIN product_variants pv ON di.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n    AND d.status NOT IN ('CANCELLED','REVERTED') AND pt.name='HDPE Pipe'\n  GROUP BY 1 ORDER BY SUM(di.quantity) DESC LIMIT 8\n)\nSELECT\n  DATE_TRUNC('month', d.dispatch_date) AS \"time\",\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END AS metric,\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0) AS value\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END\n      IN (SELECT buyer FROM top8)\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY DATE_TRUNC('month',d.dispatch_date),\n         CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END\nORDER BY 1",
+            "refId": "A"
+          }
+        ],
+        "title": "Top 8 Buyers — Monthly Meters (SELF → Bill-To Resolved)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 16,
+          "y": 91
+        },
+        "id": 31,
+        "options": {
+          "displayLabels": [
+            "name",
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "sort": "desc",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END AS \"name\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0)::FLOAT AS \"value\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END\nORDER BY 2 DESC LIMIT 12",
+            "refId": "A"
+          }
+        ],
+        "title": "Buyer Share of Meters (Period)",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "name"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 24,
+          "x": 0,
+          "y": 101
+        },
+        "id": 32,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END AS \"Buyer\",\n  c.name                           AS \"On-Record Customer\",\n  COALESCE(bt.name,'—')            AS \"Bill To\",\n  pv.parameters-\u003e\u003e'OD'             AS \"OD (mm)\",\n  pv.parameters-\u003e\u003e'PE'             AS \"PE\",\n  pv.parameters-\u003e\u003e'PN'             AS \"PN\",\n  COUNT(DISTINCT d.id)             AS \"Dispatches\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0)          AS \"Meters\",\n  SUM(di.quantity)                 AS \"Units\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END,\n  c.name, bt.name,\n  pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN'\nORDER BY SUM(CASE WHEN di.item_type='FULL_ROLL' THEN di.quantity*s.length_per_unit\n               WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n               ELSE 0 END) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Buyer × Pipe Spec Matrix — Meters per OD/PE/PN per Buyer",
+        "type": "table"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 113
+        },
+        "id": 33,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END AS \"Buyer\",\n  COALESCE(bt.city,c.city,'—')     AS \"City\",\n  COALESCE(bt.gstin,c.gstin,'—')   AS \"GSTIN\",\n  COUNT(DISTINCT d.id)             AS \"Total Dispatches\",\n  COUNT(DISTINCT pv.parameters)    AS \"Distinct Specs Used\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0)          AS \"Total Meters\",\n  MODE() WITHIN GROUP (ORDER BY\n    CONCAT('OD',pv.parameters-\u003e\u003e'OD',' PE',pv.parameters-\u003e\u003e'PE',' PN',pv.parameters-\u003e\u003e'PN')\n  )                                AS \"Preferred Spec\",\n  TO_CHAR(MIN(d.dispatch_date),'YYYY-MM-DD') AS \"First Order\",\n  TO_CHAR(MAX(d.dispatch_date),'YYYY-MM-DD') AS \"Last Order\",\n  ROUND(EXTRACT(DAY FROM MAX(d.dispatch_date)-MIN(d.dispatch_date))\n    ::NUMERIC/NULLIF(COUNT(DISTINCT d.id)-1,0),0) AS \"Avg Days Between Orders\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END,\n  COALESCE(bt.city,c.city,'—'), COALESCE(bt.gstin,c.gstin,'—')\nORDER BY SUM(CASE WHEN di.item_type='FULL_ROLL' THEN di.quantity*s.length_per_unit\n               WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n               ELSE 0 END) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Buyer Summary — Lifetime Meters, Spec Preference, Frequency",
+        "type": "table"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 124
+        },
+        "id": 34,
+        "options": {
+          "barRadius": 0.04,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "auto",
+          "stacking": "value",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          },
+          "xTickLabelRotation": -30,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "WITH top10 AS (\n  SELECT CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END AS buyer\n  FROM dispatch_items di\n  JOIN dispatches d ON di.dispatch_id=d.id\n  JOIN customers c ON d.customer_id=c.id\n  LEFT JOIN bill_to bt ON d.bill_to_id=bt.id\n  JOIN product_variants pv ON di.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n    AND d.status NOT IN ('CANCELLED','REVERTED') AND pt.name='HDPE Pipe'\n  GROUP BY 1 ORDER BY SUM(di.quantity) DESC LIMIT 10\n)\nSELECT\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END AS \"Buyer\",\n  CONCAT('OD',pv.parameters-\u003e\u003e'OD',' PE',pv.parameters-\u003e\u003e'PE',' PN',pv.parameters-\u003e\u003e'PN') AS \"Spec\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0) AS \"Meters\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED') AND pt.name='HDPE Pipe'\n  AND CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END\n      IN (SELECT buyer FROM top10)\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END,\n  pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN'\nORDER BY SUM(di.quantity) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Top 10 Buyers — Spec Preference (Meters per Spec, Stacked)",
+        "type": "barchart"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 135
+        },
+        "id": 35,
+        "panels": [],
+        "title": "🔮  Stock Depletion Forecast by Spec",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 24,
+          "x": 0,
+          "y": 136
+        },
+        "id": 36,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "WITH dispatch_rate AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn,\n         SUM(CASE WHEN di.item_type='FULL_ROLL' THEN di.quantity*s.length_per_unit\n                  WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n                  ELSE di.quantity*COALESCE(s.length_per_unit,0) END) / 30.0 AS daily_m\n  FROM dispatch_items di\n  JOIN dispatches d ON di.dispatch_id=d.id\n  JOIN inventory_stock s ON di.stock_id=s.id\n  JOIN product_variants pv ON di.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n    AND d.status NOT IN ('CANCELLED','REVERTED') AND pt.name='HDPE Pipe'\n    AND d.dispatch_date \u003e= NOW()-INTERVAL '30 days'\n  GROUP BY 1,2,3\n),\nstock_now AS (\n  SELECT pv.parameters-\u003e\u003e'OD' AS od, pv.parameters-\u003e\u003e'PE' AS pe,\n         pv.parameters-\u003e\u003e'PN' AS pn, SUM(s.quantity*s.length_per_unit) AS m\n  FROM inventory_stock s\n  JOIN product_variants pv ON s.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE s.stock_type='FULL_ROLL' AND s.status='IN_STOCK'\n    AND s.deleted_at IS NULL AND pt.name='HDPE Pipe'\n  GROUP BY 1,2,3\n  UNION ALL\n  SELECT pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN',\n         SUM(h.length_meters)\n  FROM hdpe_cut_pieces h\n  JOIN inventory_stock s ON h.stock_id=s.id\n  JOIN product_variants pv ON s.product_variant_id=pv.id\n  JOIN product_types pt ON pv.product_type_id=pt.id\n  WHERE h.status='IN_STOCK' AND h.deleted_at IS NULL\n  GROUP BY 1,2,3\n),\ntotal AS (SELECT od,pe,pn,SUM(m) AS total_m FROM stock_now GROUP BY 1,2,3)\nSELECT\n  CONCAT('OD',COALESCE(t.od,dr.od),' PE',COALESCE(t.pe,dr.pe),' PN',COALESCE(t.pn,dr.pn)) AS \"Spec\",\n  COALESCE(t.od,dr.od) AS \"OD\", COALESCE(t.pe,dr.pe) AS \"PE\", COALESCE(t.pn,dr.pn) AS \"PN\",\n  ROUND(COALESCE(t.total_m,0),0)   AS \"Stock (m)\",\n  ROUND(COALESCE(dr.daily_m,0),1)  AS \"Daily Usage (m/day)\",\n  CASE WHEN dr.daily_m\u003e0 THEN ROUND(t.total_m/dr.daily_m,0) ELSE NULL END AS \"Days Left\",\n  CASE\n    WHEN dr.daily_m IS NULL OR dr.daily_m=0 THEN '⚪ No Recent Activity'\n    WHEN t.total_m/dr.daily_m \u003c 7   THEN '🔴 Critical  \u003c 7 days'\n    WHEN t.total_m/dr.daily_m \u003c 30  THEN '🟠 Low       \u003c 30 days'\n    WHEN t.total_m/dr.daily_m \u003c 60  THEN '🟡 Moderate  \u003c 60 days'\n    ELSE '🟢 Healthy'\n  END AS \"Status\"\nFROM total t\nFULL OUTER JOIN dispatch_rate dr ON t.od=dr.od AND t.pe=dr.pe AND t.pn=dr.pn\nWHERE COALESCE(t.total_m,0)\u003e0 OR COALESCE(dr.daily_m,0)\u003e0\nORDER BY CASE WHEN dr.daily_m\u003e0 THEN t.total_m/dr.daily_m ELSE 9999 END ASC",
+            "refId": "A"
+          }
+        ],
+        "title": "Days of Stock Remaining per Spec — Based on 30-Day Dispatch Rate",
+        "type": "table"
+      }
+    ],
+    "preload": false,
+    "refresh": "5m",
+    "schemaVersion": 42,
+    "tags": [
+      "hdpe",
+      "inventory",
+      "production",
+      "buyers",
+      "bill-to",
+      "spec",
+      "od",
+      "pe",
+      "pn"
+    ],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "text": "grafana-postgresql-tarko",
+            "value": "bffylbfypp3pcc"
+          },
+          "label": "Data Source",
+          "name": "datasource",
+          "options": [],
+          "query": "postgres",
+          "refresh": 1,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "text": "All",
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": "${datasource}",
+          "includeAll": true,
+          "label": "OD (mm)",
+          "multi": true,
+          "name": "od",
+          "options": [],
+          "query": "SELECT DISTINCT pv.parameters-\u003e\u003e'OD' AS __value\nFROM product_variants pv JOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND pv.deleted_at IS NULL ORDER BY 1",
+          "refresh": 1,
+          "type": "query"
+        },
+        {
+          "current": {
+            "text": "All",
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": "${datasource}",
+          "includeAll": true,
+          "label": "PE Grade",
+          "multi": true,
+          "name": "pe",
+          "options": [],
+          "query": "SELECT DISTINCT pv.parameters-\u003e\u003e'PE' AS __value\nFROM product_variants pv JOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND pv.deleted_at IS NULL ORDER BY 1",
+          "refresh": 1,
+          "type": "query"
+        },
+        {
+          "current": {
+            "text": "All",
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": "${datasource}",
+          "includeAll": true,
+          "label": "PN Rating",
+          "multi": true,
+          "name": "pn",
+          "options": [],
+          "query": "SELECT DISTINCT pv.parameters-\u003e\u003e'PN' AS __value\nFROM product_variants pv JOIN product_types pt ON pv.product_type_id=pt.id\nWHERE pt.name='HDPE Pipe' AND pv.deleted_at IS NULL ORDER BY 1",
+          "refresh": 1,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-180d",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "Tarko — HDPE Pipe Inventory Intelligence v2",
+    "weekStart": "monday"
+  }
+}
