@@ -927,6 +927,17 @@
           }
         ],
         "title": "Dispatch Share by Driver",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "Driver / Vehicle"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
         "type": "piechart"
       },
       {
@@ -1085,6 +1096,17 @@
           }
         ],
         "title": "Meters by Vehicle Type",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "Vehicle Type"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
         "type": "piechart"
       },
       {
@@ -1532,7 +1554,7 @@
           "sort": "desc",
           "tooltip": {
             "hideZeros": false,
-            "mode": "multi",
+            "mode": "single",
             "sort": "desc"
           }
         },
@@ -1546,6 +1568,17 @@
           }
         ],
         "title": "Dispatch Share — Effective Buyers",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "Effective Buyer"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
         "type": "piechart"
       },
       {
