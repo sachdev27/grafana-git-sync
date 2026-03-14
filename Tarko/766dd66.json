@@ -654,7 +654,7 @@
           "sort": "desc",
           "tooltip": {
             "hideZeros": false,
-            "mode": "multi",
+            "mode": "single",
             "sort": "desc"
           }
         },
@@ -668,6 +668,17 @@
           }
         ],
         "title": "Meters Share by Transport",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "Transport"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
         "type": "piechart"
       },
       {
