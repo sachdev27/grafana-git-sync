@@ -1,0 +1,1917 @@
+{
+  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "tarko-transport-v1"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0,211,255,1)",
+          "name": "Annotations \u0026 Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "Who moves what, when, for whom. SELF→Bill-To resolution, driver performance, transport company analysis, route intelligence.",
+    "editable": true,
+    "fiscalYearStartMonth": 3,
+    "graphTooltip": 1,
+    "links": [],
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "panels": [],
+        "title": "🚚  Transport \u0026 Logistics — KPIs",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 1
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\"\nFROM dispatches\nWHERE deleted_at IS NULL AND reverted_at IS NULL\n  AND $__timeFilter(dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Total Dispatches (Period)",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 4,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(DISTINCT transport_id)::BIGINT AS \"value\"\nFROM dispatches\nWHERE deleted_at IS NULL AND reverted_at IS NULL\n  AND transport_id IS NOT NULL\n  AND $__timeFilter(dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Transport Companies Active",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 8,
+          "y": 1
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(DISTINCT vehicle_id)::BIGINT AS \"value\"\nFROM dispatches\nWHERE deleted_at IS NULL AND reverted_at IS NULL\n  AND vehicle_id IS NOT NULL\n  AND $__timeFilter(dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Unique Drivers (Period)",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 12,
+          "y": 1
+        },
+        "id": 5,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\"\nFROM dispatches\nWHERE deleted_at IS NULL AND reverted_at IS NULL\n  AND transport_id IS NULL\n  AND $__timeFilter(dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Direct Dispatches (No Transport)",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 8,
+          "x": 16,
+          "y": 1
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT ROUND(COALESCE(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0),0) AS \"value\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "HDPE Meters Moved (Period)",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 5
+        },
+        "id": 7,
+        "panels": [],
+        "title": "🏢  Transport Company Performance",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 65,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "showValues": false,
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "value"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 0,
+          "y": 6
+        },
+        "id": 8,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "sum",
+              "max"
+            ]
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "time_series",
+            "rawSql": "SELECT\n  DATE_TRUNC('month', d.dispatch_date) AS \"time\",\n  COALESCE(t.name,'Direct (No Transport)') AS metric,\n  COUNT(d.id) AS value\nFROM dispatches d\nLEFT JOIN transports t ON d.transport_id=t.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY DATE_TRUNC('month',d.dispatch_date), COALESCE(t.name,'Direct (No Transport)')\nORDER BY 1",
+            "refId": "A"
+          }
+        ],
+        "title": "Monthly Dispatches by Transport Company",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 16,
+          "y": 6
+        },
+        "id": 9,
+        "options": {
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "sort": "desc",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "single",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  COALESCE(t.name,'Direct (No Transport)') AS \"Transport\",\n  COUNT(d.id) AS \"Dispatches\"\nFROM dispatches d\nLEFT JOIN transports t ON d.transport_id=t.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY COALESCE(t.name,'Direct (No Transport)')\nORDER BY COUNT(d.id) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Dispatch Share by Transport",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "Transport"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 65,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "showValues": false,
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "value"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 0,
+          "y": 16
+        },
+        "id": 10,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "sum",
+              "max"
+            ]
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "time_series",
+            "rawSql": "SELECT\n  DATE_TRUNC('month', d.dispatch_date) AS \"time\",\n  COALESCE(t.name,'Direct') AS metric,\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0) AS value\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nLEFT JOIN transports t ON d.transport_id=t.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY DATE_TRUNC('month',d.dispatch_date), COALESCE(t.name,'Direct')\nORDER BY 1",
+            "refId": "A"
+          }
+        ],
+        "title": "Monthly HDPE Meters Moved by Transport",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 16,
+          "y": 16
+        },
+        "id": 11,
+        "options": {
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "sort": "desc",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "single",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  COALESCE(t.name,'Direct (No Transport)') AS \"Transport\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0) AS \"Meters\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nLEFT JOIN transports t ON d.transport_id=t.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY COALESCE(t.name,'Direct (No Transport)')\nORDER BY 2 DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Meters Share by Transport",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "Transport"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 26
+        },
+        "id": 12,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  COALESCE(t.name,'Direct (No Transport)')       AS \"Transport\",\n  COALESCE(t.contact_person,'—')                 AS \"Contact\",\n  COALESCE(t.phone,'—')                          AS \"Phone\",\n  COUNT(DISTINCT d.id)                            AS \"Total Dispatches\",\n  COUNT(DISTINCT d.vehicle_id)                    AS \"Vehicles Used\",\n  COUNT(DISTINCT d.customer_id)                   AS \"Customers Served\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0)                                         AS \"Total Meters Carried\",\n  TO_CHAR(MIN(d.dispatch_date),'YYYY-MM-DD')     AS \"First Dispatch\",\n  TO_CHAR(MAX(d.dispatch_date),'YYYY-MM-DD')     AS \"Last Dispatch\",\n  ROUND(AVG(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0)                                         AS \"Avg Meters / Dispatch\"\nFROM dispatches d\nLEFT JOIN transports t ON d.transport_id=t.id\nLEFT JOIN dispatch_items di ON di.dispatch_id=d.id\nLEFT JOIN inventory_stock s ON di.stock_id=s.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY t.id, t.name, t.contact_person, t.phone\nORDER BY COUNT(DISTINCT d.id) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Transport Company — Full Performance Summary",
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 37
+        },
+        "id": 13,
+        "panels": [],
+        "title": "🚗  Driver \u0026 Vehicle Performance",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 65,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "showValues": false,
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "value"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 0,
+          "y": 38
+        },
+        "id": 14,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "sum",
+              "max"
+            ]
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "time_series",
+            "rawSql": "WITH top_drivers AS (\n  SELECT vehicle_id FROM dispatches\n  WHERE deleted_at IS NULL AND reverted_at IS NULL AND vehicle_id IS NOT NULL\n  GROUP BY vehicle_id ORDER BY COUNT(*) DESC LIMIT 8\n)\nSELECT\n  DATE_TRUNC('month', d.dispatch_date) AS \"time\",\n  CONCAT(v.driver_name,' (',v.vehicle_number,')') AS metric,\n  COUNT(d.id) AS value\nFROM dispatches d\nJOIN vehicles v ON d.vehicle_id=v.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.vehicle_id IN (SELECT vehicle_id FROM top_drivers)\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY DATE_TRUNC('month',d.dispatch_date), v.driver_name, v.vehicle_number\nORDER BY 1",
+            "refId": "A"
+          }
+        ],
+        "title": "Monthly Dispatches by Driver",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 16,
+          "y": 38
+        },
+        "id": 15,
+        "options": {
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "sort": "desc",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  CONCAT(v.driver_name,' — ',v.vehicle_number) AS \"Driver / Vehicle\",\n  COUNT(d.id) AS \"Dispatches\"\nFROM dispatches d\nJOIN vehicles v ON d.vehicle_id=v.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY v.driver_name, v.vehicle_number\nORDER BY COUNT(d.id) DESC",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Dispatch Share by Driver",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "Driver / Vehicle"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 65,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "showValues": false,
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "value"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 0,
+          "y": 48
+        },
+        "id": 16,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "sum",
+              "max"
+            ]
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "time_series",
+            "rawSql": "WITH top_drivers AS (\n  SELECT vehicle_id FROM dispatches\n  WHERE deleted_at IS NULL AND reverted_at IS NULL AND vehicle_id IS NOT NULL\n  GROUP BY vehicle_id ORDER BY COUNT(*) DESC LIMIT 8\n)\nSELECT\n  DATE_TRUNC('month', d.dispatch_date) AS \"time\",\n  CONCAT(v.driver_name,' (',v.vehicle_number,')') AS metric,\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0) AS value\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN vehicles v ON d.vehicle_id=v.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND d.vehicle_id IN (SELECT vehicle_id FROM top_drivers)\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY DATE_TRUNC('month',d.dispatch_date), v.driver_name, v.vehicle_number\nORDER BY 1",
+            "refId": "A"
+          }
+        ],
+        "title": "Monthly HDPE Meters Moved by Driver",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "lengthm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 16,
+          "y": 48
+        },
+        "id": 17,
+        "options": {
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "sort": "desc",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  COALESCE(v.vehicle_type,'Unknown Type') AS \"Vehicle Type\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0) AS \"Meters\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN vehicles v ON d.vehicle_id=v.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY v.vehicle_type\nORDER BY 2 DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Meters by Vehicle Type",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "Vehicle Type"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 24,
+          "x": 0,
+          "y": 58
+        },
+        "id": 18,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  v.driver_name                                  AS \"Driver\",\n  v.driver_phone                                 AS \"Phone\",\n  v.vehicle_number                               AS \"Vehicle No.\",\n  COALESCE(v.vehicle_type,'—')                   AS \"Vehicle Type\",\n  COALESCE(t.name,'Direct')                      AS \"Transport Company\",\n  COUNT(DISTINCT d.id)                            AS \"Total Dispatches\",\n  COUNT(DISTINCT d.customer_id)                   AS \"Customers Served\",\n  COUNT(DISTINCT COALESCE(bt.name,c.name))        AS \"Bill-To Entities\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0)                                         AS \"Total Meters Carried\",\n  ROUND(AVG(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0)                                         AS \"Avg Meters / Run\",\n  TO_CHAR(MIN(d.dispatch_date),'YYYY-MM-DD')     AS \"First Run\",\n  TO_CHAR(MAX(d.dispatch_date),'YYYY-MM-DD')     AS \"Last Run\"\nFROM dispatches d\nJOIN vehicles v ON d.vehicle_id=v.id\nLEFT JOIN transports t ON d.transport_id=t.id\nLEFT JOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nLEFT JOIN dispatch_items di ON di.dispatch_id=d.id\nLEFT JOIN inventory_stock s ON di.stock_id=s.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY v.id, v.driver_name, v.driver_phone, v.vehicle_number,\n         v.vehicle_type, t.name\nORDER BY COUNT(DISTINCT d.id) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Driver \u0026 Vehicle — Full Performance Table",
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 70
+        },
+        "id": 19,
+        "panels": [],
+        "title": "🧾  Bill-To Intelligence — True Commercial Buyer",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 0,
+          "y": 71
+        },
+        "id": 20,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\"\nFROM dispatches d\nJOIN customers c ON d.customer_id=c.id\nWHERE c.name='SELF' AND d.bill_to_id IS NOT NULL\n  AND d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "SELF-Customer Dispatches (Bill-To is True Buyer)",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 6,
+          "y": 71
+        },
+        "id": 21,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(*)::BIGINT AS \"value\"\nFROM dispatches d\nJOIN customers c ON d.customer_id=c.id\nWHERE c.name != 'SELF' AND d.deleted_at IS NULL\n  AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Dispatches Without Bill-To (Customer = True Buyer)",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 12,
+          "y": 71
+        },
+        "id": 22,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(DISTINCT bt.id)::BIGINT AS \"value\"\nFROM dispatches d\nJOIN bill_to bt ON d.bill_to_id=bt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "Unique Bill-To Entities (Period)",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": 0
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 18,
+          "y": 71
+        },
+        "id": 23,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT COUNT(DISTINCT COALESCE(bt.name, c.name))::BIGINT AS \"value\"\nFROM dispatches d\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)",
+            "refId": "A"
+          }
+        ],
+        "title": "True Unique Buyers (Customer + Bill-To Combined)",
+        "type": "stat"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 65,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "showValues": false,
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "value"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 16,
+          "x": 0,
+          "y": 75
+        },
+        "id": 24,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "sum",
+              "max"
+            ]
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "time_series",
+            "rawSql": "SELECT\n  DATE_TRUNC('month', d.dispatch_date) AS \"time\",\n  CASE\n    WHEN c.name='SELF' AND bt.name IS NOT NULL THEN CONCAT(bt.name,' (via SELF)')\n    ELSE c.name\n  END AS metric,\n  COUNT(d.id) AS value\nFROM dispatches d\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY DATE_TRUNC('month',d.dispatch_date),\n         CASE WHEN c.name='SELF' AND bt.name IS NOT NULL\n              THEN CONCAT(bt.name,' (via SELF)') ELSE c.name END\nORDER BY 1",
+            "refId": "A"
+          }
+        ],
+        "title": "Monthly Dispatches by Effective Buyer (SELF → Bill-To)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 8,
+          "x": 16,
+          "y": 75
+        },
+        "id": 25,
+        "options": {
+          "legend": {
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true,
+            "values": [
+              "value",
+              "percent"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "sort": "desc",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "single",
+            "sort": "desc"
+          }
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CASE\n    WHEN c.name='SELF' AND bt.name IS NOT NULL THEN CONCAT(bt.name,' (via SELF)')\n    ELSE c.name\n  END AS \"Effective Buyer\",\n  COUNT(d.id) AS \"Dispatches\"\nFROM dispatches d\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY CASE WHEN c.name='SELF' AND bt.name IS NOT NULL\n              THEN CONCAT(bt.name,' (via SELF)') ELSE c.name END\nORDER BY COUNT(d.id) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Dispatch Share — Effective Buyers",
+        "transformations": [
+          {
+            "id": "partitionByValues",
+            "options": {
+              "fields": [
+                "Effective Buyer"
+              ],
+              "keepFields": false
+            }
+          }
+        ],
+        "type": "piechart"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 24,
+          "x": 0,
+          "y": 85
+        },
+        "id": 26,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  CASE\n    WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name\n    ELSE c.name\n  END                                             AS \"Effective Buyer\",\n  c.name                                          AS \"On-Record Customer\",\n  COALESCE(bt.name,'—')                           AS \"Bill To\",\n  COALESCE(bt.city, c.city,'—')                   AS \"City\",\n  COALESCE(bt.gstin, c.gstin,'—')                 AS \"GSTIN\",\n  COUNT(DISTINCT d.id)                            AS \"Dispatches\",\n  COUNT(DISTINCT d.vehicle_id)                    AS \"Drivers Used\",\n  COUNT(DISTINCT d.transport_id)                  AS \"Transport Companies\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0)                                         AS \"Total Meters\",\n  TO_CHAR(MAX(d.dispatch_date),'YYYY-MM-DD')     AS \"Last Dispatch\"\nFROM dispatches d\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nLEFT JOIN dispatch_items di ON di.dispatch_id=d.id\nLEFT JOIN inventory_stock s ON di.stock_id=s.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY c.name, bt.name, bt.city, c.city, bt.gstin, c.gstin\nORDER BY COUNT(DISTINCT d.id) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Effective Buyer Summary — Customer + Bill-To Resolved",
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 97
+        },
+        "id": 27,
+        "panels": [],
+        "title": "📋  Dispatch Register — Full Detail",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 24,
+          "x": 0,
+          "y": 98
+        },
+        "id": 28,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  d.dispatch_number                              AS \"Dispatch #\",\n  TO_CHAR(d.dispatch_date,'YYYY-MM-DD')         AS \"Date\",\n  c.name                                         AS \"Customer\",\n  COALESCE(bt.name,'—')                          AS \"Bill To\",\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL\n       THEN bt.name ELSE c.name END              AS \"Effective Buyer\",\n  COALESCE(t.name,'Direct')                      AS \"Transport\",\n  COALESCE(v.driver_name,'—')                    AS \"Driver\",\n  COALESCE(v.vehicle_number,'—')                 AS \"Vehicle\",\n  COALESCE(v.vehicle_type,'—')                   AS \"Vehicle Type\",\n  COUNT(di.id)                                   AS \"Line Items\",\n  SUM(di.quantity)                               AS \"Units\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0)                                        AS \"Meters\",\n  d.status                                       AS \"Status\"\nFROM dispatches d\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nLEFT JOIN transports t ON d.transport_id=t.id\nLEFT JOIN vehicles v ON d.vehicle_id=v.id\nLEFT JOIN dispatch_items di ON di.dispatch_id=d.id\nLEFT JOIN inventory_stock s ON di.stock_id=s.id\nWHERE d.deleted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY d.id, d.dispatch_number, d.dispatch_date, c.name, bt.name,\n         t.name, v.driver_name, v.vehicle_number, v.vehicle_type, d.status\nORDER BY d.dispatch_date DESC\nLIMIT 200",
+            "refId": "A"
+          }
+        ],
+        "title": "Complete Dispatch Log — Customer + Bill-To + Driver + Transport",
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 110
+        },
+        "id": 29,
+        "panels": [],
+        "title": "🗺️  Route Intelligence — Who Goes Where",
+        "type": "row"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 14,
+          "x": 0,
+          "y": 111
+        },
+        "id": 30,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  v.driver_name                                  AS \"Driver\",\n  v.vehicle_number                               AS \"Vehicle\",\n  CASE WHEN c.name='SELF' AND bt.name IS NOT NULL\n       THEN bt.name ELSE c.name END              AS \"Effective Buyer\",\n  COALESCE(bt.city, c.city,'—')                  AS \"Delivery City\",\n  COUNT(DISTINCT d.id)                            AS \"Trips\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0)                                         AS \"Meters Carried\"\nFROM dispatches d\nJOIN vehicles v ON d.vehicle_id=v.id\nJOIN customers c ON d.customer_id=c.id\nLEFT JOIN bill_to bt ON d.bill_to_id=bt.id\nLEFT JOIN dispatch_items di ON di.dispatch_id=d.id\nLEFT JOIN inventory_stock s ON di.stock_id=s.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY v.driver_name, v.vehicle_number,\n         CASE WHEN c.name='SELF' AND bt.name IS NOT NULL THEN bt.name ELSE c.name END,\n         COALESCE(bt.city,c.city,'—')\nORDER BY COUNT(DISTINCT d.id) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Driver × Effective Buyer — Trip Matrix",
+        "type": "table"
+      },
+      {
+        "datasource": "${datasource}",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "footer": {
+                "reducers": [
+                  "sum"
+                ]
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 10,
+          "x": 14,
+          "y": 111
+        },
+        "id": 31,
+        "options": {
+          "cellHeight": "sm",
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "12.3.4",
+        "targets": [
+          {
+            "datasource": "${datasource}",
+            "format": "table",
+            "rawSql": "SELECT\n  COALESCE(t.name,'Direct')                      AS \"Transport\",\n  pv.parameters-\u003e\u003e'OD'                           AS \"OD (mm)\",\n  pv.parameters-\u003e\u003e'PE'                           AS \"PE\",\n  pv.parameters-\u003e\u003e'PN'                           AS \"PN\",\n  COUNT(DISTINCT d.id)                            AS \"Dispatches\",\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\n  END),0)                                         AS \"Meters\"\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nLEFT JOIN transports t ON d.transport_id=t.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY COALESCE(t.name,'Direct'),\n         pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN'\nORDER BY SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity*s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE 0 END) DESC",
+            "refId": "A"
+          }
+        ],
+        "title": "Transport × Pipe Spec — What Each Carrier Moves",
+        "type": "table"
+      }
+    ],
+    "preload": false,
+    "refresh": "10m",
+    "schemaVersion": 42,
+    "tags": [
+      "transport",
+      "drivers",
+      "vehicles",
+      "bill-to",
+      "logistics",
+      "dispatch"
+    ],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "text": "grafana-postgresql-tarko",
+            "value": "bffylbfypp3pcc"
+          },
+          "label": "Data Source",
+          "name": "datasource",
+          "options": [],
+          "query": "postgres",
+          "refresh": 1,
+          "type": "datasource"
+        },
+        {
+          "current": {
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": "${datasource}",
+          "includeAll": true,
+          "label": "Transport",
+          "multi": true,
+          "name": "transport",
+          "options": [],
+          "query": "SELECT DISTINCT name AS __value FROM transports WHERE deleted_at IS NULL ORDER BY name",
+          "refresh": 1,
+          "type": "query"
+        },
+        {
+          "current": {
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": "${datasource}",
+          "includeAll": true,
+          "label": "Driver",
+          "multi": true,
+          "name": "driver",
+          "options": [],
+          "query": "SELECT DISTINCT driver_name AS __value FROM vehicles WHERE deleted_at IS NULL ORDER BY driver_name",
+          "refresh": 1,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-90d",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "Tarko — Transport, Drivers \u0026 Bill-To Intelligence",
+    "weekStart": "monday"
+  }
+}
