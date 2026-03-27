@@ -1248,9 +1248,28 @@
         "targets": [
           {
             "datasource": "${datasource}",
+            "editorMode": "code",
             "format": "time_series",
+            "rawQuery": true,
             "rawSql": "SELECT\n  DATE_TRUNC('month', d.dispatch_date) AS \"time\",\n  CONCAT('OD',pv.parameters-\u003e\u003e'OD',' PE',pv.parameters-\u003e\u003e'PE',' PN',pv.parameters-\u003e\u003e'PN') AS metric,\n  ROUND(SUM(CASE\n    WHEN di.item_type='FULL_ROLL' THEN di.quantity * s.length_per_unit\n    WHEN di.item_type IN ('CUT_ROLL','CUT_PIECE') THEN COALESCE(di.length_meters,0)\n    ELSE di.quantity * COALESCE(s.length_per_unit,0)\nEND),0) AS value\nFROM dispatch_items di\nJOIN dispatches d ON di.dispatch_id=d.id\nJOIN inventory_stock s ON di.stock_id=s.id\nJOIN product_variants pv ON di.product_variant_id=pv.id\nJOIN product_types pt ON pv.product_type_id=pt.id\nWHERE d.deleted_at IS NULL AND d.reverted_at IS NULL\n  AND d.status NOT IN ('CANCELLED','REVERTED')\n  AND pt.name='HDPE Pipe'\n  AND $__timeFilter(d.dispatch_date)\nGROUP BY DATE_TRUNC('month',d.dispatch_date),\n         pv.parameters-\u003e\u003e'OD', pv.parameters-\u003e\u003e'PE', pv.parameters-\u003e\u003e'PN'\nORDER BY 1",
-            "refId": "A"
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
           }
         ],
         "title": "Monthly Meters Dispatched by Spec",
@@ -1843,7 +1862,7 @@
         },
         "gridPos": {
           "h": 10,
-          "w": 16,
+          "w": 14,
           "x": 0,
           "y": 91
         },
@@ -1898,8 +1917,8 @@
         },
         "gridPos": {
           "h": 10,
-          "w": 8,
-          "x": 16,
+          "w": 10,
+          "x": 14,
           "y": 91
         },
         "id": 31,
