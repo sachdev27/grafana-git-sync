@@ -27,10 +27,9 @@
       }
     ],
     "cursorSync": "Off",
-    "description": "",
     "editable": true,
     "elements": {
-      "panel-1": {
+      "panel-2": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -49,8 +48,8 @@
                       "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
-                        "expr": "probe_success{application=\"shipnexus\"}",
-                        "legendFormat": "__auto",
+                        "expr": "json_api_probe_up{application=\"shipnexus\"}",
+                        "legendFormat": "{{instance}}",
                         "range": true
                       },
                       "version": "v0"
@@ -64,7 +63,7 @@
             }
           },
           "description": "",
-          "id": 1,
+          "id": 2,
           "links": [],
           "title": "Ping Check",
           "vizConfig": {
@@ -147,25 +146,139 @@
             "version": "13.3.1"
           }
         }
+      },
+      "panel-3": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "PBFA97CFB590B2093"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "editorMode": "code",
+                        "exemplar": false,
+                        "expr": "json_api_probe_up{application=\"shipnexus\"}",
+                        "instant": true,
+                        "legendFormat": "__auto",
+                        "range": false
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 3,
+          "links": [],
+          "title": "Status ",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "#ad46ff",
+                    "mode": "thresholds"
+                  },
+                  "mappings": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "dark-red",
+                          "index": 1,
+                          "text": "DOWN"
+                        },
+                        "1": {
+                          "color": "dark-green",
+                          "index": 0,
+                          "text": "UP"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "background",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+              }
+            },
+            "version": "13.3.1"
+          }
+        }
       }
     },
     "layout": {
-      "kind": "AutoGridLayout",
+      "kind": "GridLayout",
       "spec": {
-        "columnWidthMode": "standard",
         "items": [
           {
-            "kind": "AutoGridLayoutItem",
+            "kind": "GridLayoutItem",
             "spec": {
               "element": {
                 "kind": "ElementReference",
-                "name": "panel-1"
-              }
+                "name": "panel-3"
+              },
+              "height": 4,
+              "width": 24,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-2"
+              },
+              "height": 10,
+              "width": 24,
+              "x": 0,
+              "y": 4
             }
           }
-        ],
-        "maxColumnCount": 3,
-        "rowHeightMode": "standard"
+        ]
       }
     },
     "links": [],
