@@ -1,0 +1,1181 @@
+{
+  "apiVersion": "dashboard.grafana.app/v1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "dcg59y5eofy2gwc"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "name": "Annotations \u0026 Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "Comprehensive whitebox application telemetry, Node.js V8 runtime, live chat WebSockets, and database diagnostics for Second Hand Listings.",
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 1,
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "Live Application",
+        "tooltip": "Open SecondHandListings in production",
+        "url": "https://secondhandlistings.in"
+      },
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "Admin Observability",
+        "tooltip": "Open In-App Prometheus Dashboard",
+        "url": "https://secondhandlistings.in/admin?tab=prometheus"
+      }
+    ],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 100,
+        "title": "🌟 System Health \u0026 Synthetic Probing Relief",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "color": "red",
+                    "text": "DEGRADED"
+                  },
+                  "1": {
+                    "color": "green",
+                    "text": "HEALTHY"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 1
+        },
+        "id": 1,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "11.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_health_status",
+            "instant": true,
+            "legendFormat": "App Health",
+            "range": false,
+            "refId": "A"
+          }
+        ],
+        "title": "Application State",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 15
+                },
+                {
+                  "color": "red",
+                  "value": 50
+                }
+              ]
+            },
+            "unit": "ms"
+          }
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 4,
+          "y": 1
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_database_ping_duration_seconds * 1000",
+            "legendFormat": "DB Latency",
+            "refId": "A"
+          }
+        ],
+        "title": "PostgreSQL Ping (Port 5433)",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "color": "red",
+                    "text": "OFFLINE"
+                  },
+                  "1": {
+                    "color": "green",
+                    "text": "CONNECTED"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 9,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_storage_status",
+            "instant": true,
+            "legendFormat": "Cloudflare R2",
+            "refId": "A"
+          }
+        ],
+        "title": "Cloudflare R2 Photos",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "unit": "s"
+          }
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 14,
+          "y": 1
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_app_uptime_seconds",
+            "instant": true,
+            "legendFormat": "Uptime",
+            "refId": "A"
+          }
+        ],
+        "title": "Process Uptime",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 19,
+          "y": 1
+        },
+        "id": 5,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_websocket_connections_active",
+            "legendFormat": "Connected Clients",
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_websocket_rooms_active",
+            "legendFormat": "Active Rooms",
+            "refId": "B"
+          }
+        ],
+        "title": "Live Chat WebSockets",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 5
+        },
+        "id": 101,
+        "title": "⚡ HTTP Traffic, Throughput \u0026 Route Latency",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 15,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2
+            },
+            "unit": "reqps"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 6
+        },
+        "id": 6,
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean",
+              "max"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "sum(rate(shl_http_requests_total[1m])) by (route)",
+            "legendFormat": "{{route}}",
+            "refId": "A"
+          }
+        ],
+        "title": "HTTP Ingress Rate by Route (req/sec)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "bars",
+              "fillOpacity": 85,
+              "stacking": {
+                "group": "A",
+                "mode": "normal"
+              }
+            },
+            "unit": "reqps"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 6
+        },
+        "id": 7,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "sum(rate(shl_http_requests_total[1m])) by (status_code)",
+            "legendFormat": "HTTP {{status_code}}",
+            "refId": "A"
+          }
+        ],
+        "title": "HTTP Status Code Distribution (2xx, 3xx, 4xx, 5xx)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "smooth",
+              "lineWidth": 2
+            },
+            "unit": "s"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 14
+        },
+        "id": 8,
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean",
+              "max"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "histogram_quantile(0.95, sum(rate(shl_http_request_duration_seconds_bucket[5m])) by (le, route))",
+            "legendFormat": "p95 {{route}}",
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "histogram_quantile(0.99, sum(rate(shl_http_request_duration_seconds_bucket[5m])) by (le, route))",
+            "legendFormat": "p99 {{route}}",
+            "refId": "B"
+          }
+        ],
+        "title": "p95 \u0026 p99 Route Response Latency (Histogram Quantiles)",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 22
+        },
+        "id": 102,
+        "title": "💻 Node.js V8 Runtime, Memory \u0026 Event Loop Diagnostics",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 2
+            },
+            "unit": "bytes"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 23
+        },
+        "id": 9,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull",
+              "max"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_nodejs_heap_size_used_bytes",
+            "legendFormat": "V8 Heap Used",
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_nodejs_heap_size_total_bytes",
+            "legendFormat": "V8 Heap Total",
+            "refId": "B"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_process_resident_memory_bytes",
+            "legendFormat": "Process RSS",
+            "refId": "C"
+          }
+        ],
+        "title": "V8 Heap Allocation \u0026 Process Resident Memory",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineWidth": 2
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 20
+                },
+                {
+                  "color": "red",
+                  "value": 50
+                }
+              ]
+            },
+            "unit": "ms"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 23
+        },
+        "id": 10,
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean",
+              "max"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_nodejs_eventloop_lag_seconds * 1000",
+            "legendFormat": "Current Lag",
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_nodejs_eventloop_lag_max_seconds * 1000",
+            "legendFormat": "Max Delay Window",
+            "refId": "B"
+          }
+        ],
+        "title": "Node.js Event Loop Lag (CPU Blocking Detector)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 15,
+              "lineWidth": 2
+            },
+            "unit": "percent"
+          }
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 0,
+          "y": 31
+        },
+        "id": 11,
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean",
+              "max"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "rate(shl_process_cpu_user_seconds_total[1m]) * 100",
+            "legendFormat": "User CPU %",
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "rate(shl_process_cpu_system_seconds_total[1m]) * 100",
+            "legendFormat": "System CPU %",
+            "refId": "B"
+          }
+        ],
+        "title": "Node.js CPU Utilization Rate",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineWidth": 2
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 12,
+          "y": 31
+        },
+        "id": 12,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_nodejs_active_handles_total",
+            "legendFormat": "Active Handles (Sockets/Files)",
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "shl_nodejs_active_requests_total",
+            "legendFormat": "Active Async Requests",
+            "refId": "B"
+          }
+        ],
+        "title": "Active OS Handles \u0026 Async Operations",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 38
+        },
+        "id": 103,
+        "title": "🛡️ Security, Abuse Prevention \u0026 Rate Limiting",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "bars",
+              "fillOpacity": 80
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 8,
+          "x": 0,
+          "y": 39
+        },
+        "id": 13,
+        "options": {
+          "legend": {
+            "calcs": [
+              "sum"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "sum(increase(shl_rate_limit_hits_total[1h])) by (limiter)",
+            "legendFormat": "{{limiter}} limiter",
+            "refId": "A"
+          }
+        ],
+        "title": "Rate Limit Blocks Triggered (Hourly)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "lineWidth": 2
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 8,
+          "x": 8,
+          "y": 39
+        },
+        "id": 14,
+        "options": {
+          "legend": {
+            "calcs": [
+              "sum"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "sum(increase(shl_auth_checks_total[1h])) by (status)",
+            "legendFormat": "{{status}} session",
+            "refId": "A"
+          }
+        ],
+        "title": "Session Validations \u0026 Auth Checks",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "bars",
+              "fillOpacity": 80
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 8,
+          "x": 16,
+          "y": 39
+        },
+        "id": 15,
+        "options": {
+          "legend": {
+            "calcs": [
+              "sum"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "sum(increase(shl_upload_failures_total[1h])) by (reason)",
+            "legendFormat": "Rejected: {{reason}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Upload Sanitization Failures Blocked",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 46
+        },
+        "id": 104,
+        "title": "📦 Marketplace Domain Activity \u0026 Background Automation",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 47
+        },
+        "id": 16,
+        "options": {
+          "displayMode": "gradient",
+          "minVizHeight": 10,
+          "minVizWidth": 0,
+          "namePlacement": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showUnfilled": true,
+          "valueMode": "color"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "sum(increase(shl_listings_created_total[24h])) by (category)",
+            "legendFormat": "{{category}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Listings Created by Hardware Category (Last 24h)",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "Prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "bars",
+              "fillOpacity": 80
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 47
+        },
+        "id": 17,
+        "options": {
+          "legend": {
+            "calcs": [
+              "sum"
+            ],
+            "displayMode": "table",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "desc"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "sum(increase(shl_notifications_sent_total[24h])) by (type)",
+            "legendFormat": "{{type}} notification",
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "Prometheus"
+            },
+            "editorMode": "code",
+            "expr": "sum(increase(shl_sweeper_runs_total[24h])) by (job, status)",
+            "legendFormat": "Sweeper {{job}} ({{status}})",
+            "refId": "B"
+          }
+        ],
+        "title": "Notification Digests \u0026 Background Sweeper Runs",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "15s",
+    "schemaVersion": 39,
+    "tags": [
+      "production",
+      "ecommerce",
+      "secondhandlistings",
+      "nodejs",
+      "prometheus"
+    ],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "15s",
+        "30s",
+        "1m",
+        "5m"
+      ]
+    },
+    "timezone": "browser",
+    "title": "Second Hand Listings · Enterprise Production Observability"
+  }
+}
