@@ -1,0 +1,10 @@
+{
+  "kind": "Folder",
+  "apiVersion": "folder.grafana.app/v1",
+  "metadata": {
+    "name": "ag59y9g8ffzeoe"
+  },
+  "spec": {
+    "title": "Ship Nexus"
+  }
+}
