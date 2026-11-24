@@ -1,0 +1,10 @@
+{
+  "kind": "Folder",
+  "apiVersion": "folder.grafana.app/v1",
+  "metadata": {
+    "name": "eg59x6gccda0wd"
+  },
+  "spec": {
+    "title": "Second Hand Listings"
+  }
+}
